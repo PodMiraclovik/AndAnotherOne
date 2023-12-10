@@ -6,6 +6,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         try {
             const imageBuffer = req.body; // Получение тела POST-запроса (изображения)
 
+            if (!imageBuffer) {
+                res.status(400).send('No image data received.');
+                return;
+            }
+
             // Обработка изображения с помощью sharp
             const processedImageBuffer = await sharp(imageBuffer)
                 // Выполнение операций с изображением (например, изменение размера, обрезка и т.д.)
@@ -19,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             res.status(200).send(processedImageBuffer); // Отправка обработанного изображения
         } catch (error) {
             console.error('Error processing image:', error);
-            res.status(500).send('Error processing image 500');
+            res.status(500).send('Error processing image.');
         }
     } else {
         res.status(405).send('Method Not Allowed');
