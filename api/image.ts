@@ -1,30 +1,27 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import sharp from 'sharp';
 
-export default async function imageHandler(req: VercelRequest, res: VercelResponse) {
-    try {
-        const buffer = await getBufferFromRequest(req);
-        const processedImage = await processImage(buffer);
-        res.setHeader('Content-Type', 'image/jpeg');
-        res.status(200).send(processedImage);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error processing image');
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+    if (req.method === 'POST') {
+        try {
+            const imageBuffer = req.body; // Получение тела POST-запроса (изображения)
+
+            // Обработка изображения с помощью sharp
+            const processedImageBuffer = await sharp(imageBuffer)
+                // Выполнение операций с изображением (например, изменение размера, обрезка и т.д.)
+                .resize({ width: 300 }) // Пример: изменение размера до ширины 300px
+
+                // Получение буфера обработанного изображения
+                .toBuffer();
+
+            // Отправка обработанного изображения в качестве ответа
+            res.setHeader('Content-Type', 'image/jpeg'); // Установка типа контента
+            res.status(200).send(processedImageBuffer); // Отправка обработанного изображения
+        } catch (error) {
+            console.error('Error processing image:', error);
+            res.status(500).send('Error processing image');
+        }
+    } else {
+        res.status(405).send('Method Not Allowed');
     }
-}
-
-async function getBufferFromRequest(req: VercelRequest): Promise<Buffer> {
-    return new Promise((resolve, reject) => {
-        const chunks: Buffer[] = [];
-        req.on('data', (chunk) => chunks.push(chunk));
-        req.on('end', () => resolve(Buffer.concat(chunks)));
-        req.on('error', reject);
-    });
-}
-
-async function processImage(buffer: Buffer): Promise<Buffer> {
-    return sharp(buffer)
-        .grayscale() // Применяем черно-белый эффект
-        .toFormat('jpeg')
-        .toBuffer();
 }
