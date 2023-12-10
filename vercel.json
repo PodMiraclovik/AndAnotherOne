@@ -12,8 +12,8 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/api/image",
+      "dest": "image.ts"
     }
   ]
 }
