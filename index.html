@@ -7,36 +7,48 @@
 <body>
     <h1>Serverless Image Processing</h1>
     <p>Upload an image and see how it will be processed using a serverless function on Vercel.</p>
-    <form action="/api/image" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*" required>
+    <form id="imageForm">
+        <input type="file" id="imageInput" accept="image/*" required>
         <input type="submit" value="Upload">
     </form>
     <div id="result"></div>
-    <script>
+    <script type="module">
+        import axios from 'axios';
 
-        const form = document.querySelector("form");
-        const result = document.querySelector("#result");
+        const baseURL = process.env.NODE_ENV === 'production' ? 'https://and-another-one.vercel.app' : 'http://localhost:5000';
+        const instance = axios.create({ baseURL });
+
+        const form = document.getElementById("imageForm");
+        const result = document.getElementById("result");
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
 
-            const formData = new FormData(form);
+            const formData = new FormData();
+            const fileInput = document.getElementById("imageInput");
+            formData.append("image", fileInput.files[0]);
 
-            const response = await fetch("/api/image", {
-                method: "POST",
-                body: formData,
-            });
+            try {
+                const response = await instance.post('/api/image', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
 
-            if (response.ok) {
-                const imageUrl = await response.text();
+                if (response.status === 200) {
+                    const imageUrl = response.data;
 
-                const image = document.createElement("img");
-                image.src = imageUrl;
+                    const image = document.createElement("img");
+                    image.src = imageUrl;
 
-                result.innerHTML = "";
-                result.appendChild(image);
-            } else {
-                result.textContent = "An error occurred while processing the image.";
+                    result.innerHTML = "";
+                    result.appendChild(image);
+                } else {
+                    result.textContent = "An error occurred while processing the image.";
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                result.textContent = 'An error occurred while processing the image.';
             }
         });
     </script>
