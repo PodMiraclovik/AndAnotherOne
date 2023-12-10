@@ -1,4 +1,6 @@
 {
+  "version": 2,
+  "debug": true,
   "builds": [
     {
       "src": "index.html",
@@ -7,12 +9,6 @@
     {
       "src": "api/*.ts",
       "use": "@vercel/node"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
     }
   ],
   "routes": [
@@ -30,6 +26,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "version": 2
+  ]
 }
