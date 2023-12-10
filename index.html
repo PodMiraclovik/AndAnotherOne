@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Бессерверная обработка изображений</title>
+</head>
+<body>
+    <h1>Бессерверная обработка изображений</h1>
+    <p>Загрузите изображение и посмотрите, как оно будет обработано с помощью бессерверной функции на Vercel.</p>
+    <form action="/api/image" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <input type="submit" value="Загрузить">
+    </form>
+    <div id="result"></div>
+    <script>
+    // Получаем элементы формы и результата
+    const form = document.querySelector("form");
+    const result = document.querySelector("#result");
+
+    // Добавляем обработчик события отправки формы
+    form.addEventListener("submit", async (event) => {
+      // Отменяем действие по умолчанию
+      event.preventDefault();
+
+      // Создаем объект FormData с данными формы
+      const formData = new FormData(form);
+
+      // Отправляем запрос к бессерверной функции
+      const response = await fetch("/api/image", {
+        method: "POST",
+        body: formData,
+      });
+
+      // Проверяем статус ответа
+      if (response.ok) {
+        // Получаем URL обработанного изображения
+        const imageUrl = await response.text();
+
+        // Создаем элемент изображения с этим URL
+        const image = document.createElement("img");
+        image.src = imageUrl;
+
+        // Очищаем и добавляем элемент изображения в результат
+        result.innerHTML = "";
+        result.appendChild(image);
+      } else {
+        // Выводим сообщение об ошибке
+        result.textContent = "Произошла ошибка при обработке изображения.";
+      }
+    });
+    </script>
+</body>
+</html>
