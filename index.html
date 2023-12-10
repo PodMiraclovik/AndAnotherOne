@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Бессерверная обработка изображений</title>
+    <title>Serverless Image Processing</title>
 </head>
 <body>
-    <h1>Бессерверная обработка изображений</h1>
-    <p>Загрузите изображение и посмотрите, как оно будет обработано с помощью бессерверной функции на Vercel.</p>
+    <h1>Serverless Image Processing</h1>
+    <p>Upload an image and see how it will be processed using a serverless function on Vercel.</p>
     <form action="/api/image" method="post" enctype="multipart/form-data">
         <input type="file" name="image" accept="image/*" required>
-        <input type="submit" value="Загрузить">
+        <input type="submit" value="Upload">
     </form>
     <div id="result"></div>
     <script>
@@ -45,7 +45,7 @@
                 result.appendChild(image);
             } else {
                 // Выводим сообщение об ошибке
-                result.textContent = "Произошла ошибка при обработке изображения.";
+                result.textContent = "An error occurred while processing the image.";
             }
         });
     </script>
