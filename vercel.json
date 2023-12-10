@@ -13,11 +13,13 @@
   "routes": [
     {
       "src": "/api/image",
-      "methods": [ "POST" ],
+      "methods": ["POST"],
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-      }
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+      },
+      "dest": "/api/image" // Указать фактический путь к вашему API
     },
     {
       "src": "/(.*)",

@@ -34,7 +34,7 @@
             formData.append("image", fileInput.files[0]);
 
             try {
-                const response = await instance.post('https://and-another-one.vercel.app/api/image', formData, {
+                const response = await instance.post('/api/image', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                         // Add more headers if necessary (e.g., authorization token)
