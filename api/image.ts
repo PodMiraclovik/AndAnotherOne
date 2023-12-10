@@ -19,7 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             res.status(200).send(processedImageBuffer); // Отправка обработанного изображения
         } catch (error) {
             console.error('Error processing image:', error);
-            res.status(500).send('Error processing image');
+            res.status(500).send('Error processing image 500');
         }
     } else {
         res.status(405).send('Method Not Allowed');
