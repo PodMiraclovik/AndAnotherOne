@@ -18,7 +18,7 @@
         };
     </script>
     <script type="module">
-        import axios from './node_modules/axios/dist/axios.min.js';
+        import axios from 'https://and-another-one.vercel.app/node_modules/axios/dist/axios.min.js';
 
         const baseURL = window.env.NODE_ENV === 'production' ? 'https://and-another-one.vercel.app' : 'http://localhost:5000';
         const instance = axios.create({ baseURL });
