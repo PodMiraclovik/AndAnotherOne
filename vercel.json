@@ -6,8 +6,8 @@
       "use": "@vercel/static"
     },
     {
-      "src": "api/*.py",
-      "use": "@vercel/python"
+      "src": "api/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
