@@ -15,7 +15,9 @@
       "src": "/api/image",
       "methods": [ "POST" ],
       "headers": {
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS" // Здесь вы можете указать нужные методы
+        // Другие заголовки CORS, если они нужны
       }
     },
     {
